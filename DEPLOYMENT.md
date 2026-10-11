@@ -4,7 +4,7 @@
 
 ### ⚡ **Method 1: Railway.app (EASIEST - Recommended)**
 
-Railway automatically detects your Spring Boot app and deploys it. No Docker knowledge needed!
+Railway automatically deploys Docker containers. It's the fastest way!
 
 **Steps:**
 
@@ -26,17 +26,33 @@ Railway automatically detects your Spring Boot app and deploys it. No Docker kno
    - Click "New Project"
    - Select "Deploy from GitHub"
    - Connect your GitHub and select `icecream` repo
+   - Railway auto-detects the Dockerfile and builds it
 
-4. **Configure environment**
-   - Railway detects it's a Maven project
-   - Sets build command automatically
-   - Deploy starts automatically
+4. **Add MySQL Database (Optional - for future features)**
+   - In Railway dashboard, click "Add Service"
+   - Select "MySQL"
+   - Railway auto-creates the database
+   - Exposes connection variables
 
-5. **Share the link**
-   - Railway gives you a public URL like: `https://icecream-production.up.railway.app`
+5. **Set Environment Variables (if using custom MySQL)**
+   - `SPRING_PROFILES_ACTIVE=prod`
+   - `DB_HOST=your-db-host`
+   - `DB_PORT=3306`
+   - `DB_NAME=icecream_db`
+   - `DB_USER=icecream_user`
+   - `DB_PASSWORD=your-password`
+
+6. **Share the link**
+   - Railway gives you a public URL like: `https://icecream-production.railway.app`
    - Share with your friend!
 
 **Cost:** Free tier available ($5/month credits)
+
+**Note:** If you see Docker build errors, make sure you've committed all files including:
+- `Dockerfile`
+- `railway.json`
+- `pom.xml`
+- `src/` folder
 
 ---
 

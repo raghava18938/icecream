@@ -7,11 +7,10 @@ spring:
     username: ${DB_USER:icecream_user}
     password: ${DB_PASSWORD:icecream_password}
   jpa:
-    database-platform: org.hibernate.dialect.MySQL57Dialect
     hibernate:
       ddl-auto: validate
     show-sql: false
   flyway:
-    enabled: true
+    enabled: false
     locations: classpath:db/migration
 
