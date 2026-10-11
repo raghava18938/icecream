@@ -1,16 +1,15 @@
 spring:
-  application:
-    name: firefly
   datasource:
-    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:icecream_db}?useSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     driverClassName: com.mysql.cj.jdbc.Driver
-    username: ${DB_USER:icecream_user}
-    password: ${DB_PASSWORD:icecream_password}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: validate
-    show-sql: false
+      ddl-auto: update
+    open-in-view: false
+
+
   flyway:
     enabled: false
     locations: classpath:db/migration
-
