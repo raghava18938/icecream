@@ -10,4 +10,5 @@ public class IcecreamApplication {
 		SpringApplication.run(IcecreamApplication.class, args);
 	}
 
+
 }

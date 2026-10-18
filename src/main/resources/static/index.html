@@ -1,363 +1,398 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🍦 NRT Ice Cream  🍦</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fbf7ef">
+    <meta name="description" content="Explore the NRT Ice Cream menu and choose your favourite scoops in Narsaraopet.">
+    <title>NRT Ice Cream · Narsaraopet</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root { --cream:#fbf7ef; --paper:#fffdf8; --pink:#efcec8; --rose:#843e4a; --ink:#39332e; --muted:#74665e; --line:#dfd3c7; --green:#375d49; }
+        * { box-sizing:border-box; }
+        [hidden] { display:none !important; }
+        html { scroll-behavior:smooth; }
+        body { margin:0; background:var(--cream); color:var(--ink); font-family:Arial,Helvetica,sans-serif; font-size:16px; line-height:1.5; }
+        button,input,select { font:inherit; }
+        button,a,input,select { -webkit-tap-highlight-color:transparent; }
+        button,a { touch-action:manipulation; }
+        a { color:inherit; }
+        button { cursor:pointer; }
+        button:disabled { cursor:not-allowed; opacity:.65; }
+        :focus-visible { outline:3px solid var(--rose); outline-offset:4px; }
+        h1,h2,h3,p { margin:0; }
+        h1,h2,h3 { line-height:1.08; }
+        .serif,h1,h2,h3 { font-family:Georgia,'Times New Roman',serif; font-weight:400; }
+        .skip { position:fixed; z-index:10; top:-100px; left:16px; background:white; padding:12px; }
+        .skip:focus { top:12px; }
+        .announcement { background:var(--pink); text-align:center; padding:9px 18px; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; }
+        .wrap { max-width:1200px; margin:auto; padding:0 40px; }
+        header { border-bottom:1px solid var(--line); }
+        .header-inner { min-height:116px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+        .brand { text-decoration:none; display:flex; align-items:center; gap:13px; flex-shrink:0; }
+        .brand svg { width:44px; height:57px; color:var(--rose); }
+        .brand-name { font-family:Georgia,serif; font-size:29px; letter-spacing:1px; line-height:1; }
+        .brand-sub { display:block; font-size:9px; letter-spacing:3px; text-transform:uppercase; margin-top:8px; }
+        nav { display:flex; align-items:center; gap:36px; }
+        nav a { text-decoration:none; font-size:14px; padding:11px 0; border-bottom:2px solid transparent; }
+        nav a[aria-current=page] { border-bottom-color:var(--rose); color:var(--rose); }
+        .count { background:var(--rose); color:white; font-size:11px; min-width:23px; height:23px; display:inline-grid; place-items:center; border-radius:50%; margin-left:6px; padding:0 5px; }
+        .eyebrow { font-size:11px; text-transform:uppercase; letter-spacing:2.2px; font-weight:700; color:var(--rose); }
+        .hero { display:grid; grid-template-columns:1.1fr 1fr; gap:56px; align-items:center; padding:68px 0 74px; }
+        .hero h1 { font-size:clamp(52px,5.8vw,78px); letter-spacing:-2.5px; margin:22px 0; }
+        .hero h1 em { color:var(--rose); font-weight:400; }
+        .hero-copy { max-width:420px; color:var(--muted); font-size:16px; line-height:1.8; }
+        .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:30px; }
+        .button { border:1px solid var(--rose); background:var(--rose); color:white; padding:13px 24px; border-radius:3px; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:15px; font-size:13px; font-weight:700; min-height:46px; }
+        .button:hover { filter:brightness(.93); }
+        .button.secondary { background:transparent; color:var(--rose); }
+        .hero-art { min-height:420px; position:relative; background:#eedbd4; border-radius:48% 48% 8px 8px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+        .hero-art::before { content:''; position:absolute; width:295px; height:295px; background:#f8eee1; border-radius:50%; top:45px; left:50%; transform:translateX(-50%); }
+        .hero-art svg { position:relative; width:330px; max-width:90%; height:340px; filter:drop-shadow(0 14px 6px #8b4f4020); }
+        .art-label { position:absolute; bottom:25px; font-family:Georgia,serif; font-style:italic; font-size:18px; color:#66464a; }
+        .small-star { position:absolute; color:var(--rose); font-size:29px; top:48px; right:39px; }
+        .intro-strip { border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:25px 0; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+        .intro-strip p { color:var(--muted); font-size:14px; }
+        .text-link { font-weight:700; font-size:13px; color:var(--rose); text-underline-offset:5px; }
+        .home-note { display:grid; grid-template-columns:1fr 1fr; padding:58px 0 68px; gap:40px; align-items:center; }
+        .home-note h2 { font-size:37px; max-width:360px; }
+        .home-note p { color:var(--muted); line-height:1.8; max-width:470px; }
+        .page-top { padding:48px 0 28px; text-align:center; }
+        .page-top h1 { font-size:clamp(38px,5vw,55px); margin:12px 0 16px; letter-spacing:-1px; }
+        .page-top p { color:var(--muted); font-size:14px; }
+        .ordering-notice { background:#f3e4db; border:1px solid #dcc4b8; padding:13px 20px; font-size:13px; margin:4px 0 25px; color:#65483d; border-radius:3px; }
+        .shop-layout { display:grid; gap:32px; padding-bottom:64px; align-items:start; }
+        .shop-layout.with-cart { grid-template-columns:minmax(0,1fr) 325px; }
+        .toolbar { display:flex; align-items:center; justify-content:space-between; gap:15px; flex-wrap:wrap; margin:0 0 24px; border-bottom:1px solid var(--line); padding-bottom:20px; }
+        .filters { display:flex; gap:10px; flex-wrap:wrap; }
+        .filters input,.filters select { border:1px solid #c9bbae; background:var(--paper); color:var(--ink); padding:10px 12px; border-radius:3px; font-size:13px; min-height:44px; }
+        .filters input { width:220px; }
+        .result-count { font-size:12px; color:var(--muted); }
+        .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; }
+        .with-cart .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+        .product { border:1px solid var(--line); background:var(--paper); border-radius:5px; overflow:hidden; display:flex; flex-direction:column; }
+        .product-art { height:165px; background:var(--tile); position:relative; display:grid; place-items:center; }
+        .product-art svg { width:103px; height:134px; }
+        .stock-label { position:absolute; top:12px; right:12px; background:var(--paper); padding:4px 8px; font-size:10px; letter-spacing:.5px; color:var(--muted); }
+        .product-body { padding:19px; display:flex; flex-direction:column; flex:1; }
+        .product h2 { font-size:23px; line-height:1.15; overflow-wrap:anywhere; }
+        .product-size { color:var(--muted); font-size:12px; margin:8px 0 18px; }
+        .product-bottom { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:auto; }
+        .price { font-size:17px; font-weight:700; white-space:nowrap; }
+        .add-button { min-height:43px; border:1px solid #b88a89; border-radius:3px; padding:8px 12px; background:transparent; color:var(--rose); font-size:12px; font-weight:700; }
+        .add-button:hover:not(:disabled) { background:var(--pink); }
+        .basket { border:1px solid var(--line); background:#f4e8de; padding:23px; border-radius:5px; }
+        .basket-title { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #d5c3b5; padding-bottom:20px; margin-bottom:4px; }
+        .basket h2 { font-size:28px; }
+        .basket-empty { font-size:14px; color:var(--muted); padding:28px 0; }
+        .cart-row { padding:20px 0; border-bottom:1px solid #d5c3b5; }
+        .cart-item-top { display:flex; justify-content:space-between; align-items:start; gap:14px; font-size:13px; }
+        .cart-name { font-weight:700; overflow-wrap:anywhere; }
+        .cart-size { font-size:11px; color:var(--muted); margin-top:3px; }
+        .cart-item-bottom { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:12px; }
+        .stepper { display:flex; align-items:center; border:1px solid #c8b4a6; border-radius:3px; background:var(--paper); }
+        .stepper button { border:0; background:transparent; color:var(--ink); width:40px; height:40px; font-size:18px; }
+        .stepper output { min-width:25px; text-align:center; font-size:13px; }
+        .remove { border:0; background:transparent; text-decoration:underline; text-underline-offset:3px; color:var(--muted); font-size:11px; min-height:40px; }
+        .subtotal { display:flex; justify-content:space-between; gap:10px; font-size:16px; padding:24px 0 10px; }
+        .fine { color:var(--muted); font-size:12px; line-height:1.6; }
+        .checkout { width:100%; margin:22px 0 12px; }
+        .status-box { border:1px dashed #c6b1a2; text-align:center; padding:46px 20px; color:var(--muted); font-size:14px; grid-column:1/-1; }
+        .status-box .button { margin-top:18px; }
+        .refresh { background:none; border:0; color:var(--rose); font-size:12px; text-decoration:underline; text-underline-offset:4px; min-height:44px; padding:0 4px; }
+        footer { border-top:1px solid var(--line); padding:28px 0; }
+        .footer-inner { display:flex; justify-content:space-between; align-items:center; gap:20px; font-size:11px; color:var(--muted); }
+        .footer-title { font-size:18px; color:var(--ink); margin-bottom:4px; }
+        .toast { position:fixed; z-index:5; bottom:25px; left:50%; transform:translateX(-50%); background:var(--ink); color:white; padding:13px 22px; border-radius:4px; font-size:13px; width:max-content; max-width:90vw; text-align:center; box-shadow:0 8px 30px #0002; }
+        .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+        @media(min-width:1000px) { .basket { position:sticky; top:24px; } }
+        @media(max-width:950px) {
+            .hero { gap:30px; } .hero-art { min-height:370px; }
+            .wrap { padding:0 25px; } nav { gap:23px; }
+            .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+            .shop-layout.with-cart { grid-template-columns:minmax(0,1fr) 285px; gap:20px; }
+            .with-cart .grid { grid-template-columns:1fr; }
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+        @media(max-width:650px) {
+            .wrap { padding:0 20px; } .announcement { font-size:9px; letter-spacing:1.5px; }
+            .header-inner { flex-direction:column; gap:9px; padding:22px 0 10px; }
+            .brand-name { font-size:26px; } .brand svg { width:34px; height:44px; }
+            nav { justify-content:space-between; width:100%; gap:16px; } nav a { font-size:12px; }
+            .hero { grid-template-columns:1fr; gap:36px; padding:39px 0; }
+            .hero h1 { font-size:54px; letter-spacing:-2px; } .hero-copy { font-size:14px; }
+            .hero-art { min-height:340px; } .hero-art svg { height:290px; }
+            .hero-art::before { width:250px; height:250px; top:25px; }
+            .art-label { bottom:16px; font-size:16px; }
+            .intro-strip { align-items:start; flex-direction:column; gap:10px; }
+            .home-note { grid-template-columns:1fr; gap:22px; padding:37px 0 43px; }
+            .home-note h2 { font-size:32px; } .home-note p { font-size:14px; }
+            .page-top { padding:34px 0 24px; } .page-top h1 { font-size:39px; }
+            .shop-layout.with-cart { grid-template-columns:1fr; }
+            .with-cart .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+            .grid { gap:12px; } .product-art { height:133px; } .product-art svg { width:83px; height:108px; }
+            .product-body { padding:13px; } .product h2 { font-size:20px; }
+            .product-bottom { align-items:stretch; flex-direction:column; gap:10px; } .price { font-size:16px; }
+            .filters { width:100%; } .filters input { flex:1; min-width:0; width:130px; }
+            .filters select { width:128px; padding-left:8px; }
+            .toolbar { gap:10px; } .footer-inner { align-items:start; flex-direction:column; gap:16px; }
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            color: white;
-            margin-bottom: 50px;
-            animation: slideDown 0.8s ease-out;
-        }
-
-        header h1 {
-            font-size: 3.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        header p {
-            font-size: 1.2em;
-            opacity: 0.95;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            animation: popIn 0.6s ease-out forwards;
-        }
-
-        .product-card:nth-child(1) { animation-delay: 0.1s; }
-        .product-card:nth-child(2) { animation-delay: 0.2s; }
-        .product-card:nth-child(3) { animation-delay: 0.3s; }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .ice-cream-icon {
-            font-size: 4em;
-            text-align: center;
-            padding: 30px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-        }
-
-        .product-info {
-            padding: 25px;
-        }
-
-        .product-name {
-            font-size: 1.8em;
-            color: #333;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .product-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 15px 0;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .size-badge {
-            background: #e0e7ff;
-            color: #667eea;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
-
-        .price {
-            font-size: 1.8em;
-            color: #f5576c;
-            font-weight: bold;
-        }
-
-        .availability {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-            margin-top: 12px;
-        }
-
-        .status-badge {
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
-        }
-
-        .available {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .unavailable {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .status-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            display: inline-block;
-            animation: pulse 2s infinite;
-        }
-
-        .available .status-dot {
-            background: #28a745;
-        }
-
-        .unavailable .status-dot {
-            background: #dc3545;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .loading {
-            text-align: center;
-            color: white;
-            font-size: 1.2em;
-            padding: 40px;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 15px;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes popIn {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .error {
-            text-align: center;
-            color: #fff;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 20px;
-            font-size: 1.2em;
-        }
-
-        .error-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
-
-        footer {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            margin-top: 40px;
-        }
-
-        .refresh-btn {
-            background: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-weight: 600;
-            color: #667eea;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-        }
-
-        .refresh-btn:hover {
-            background: #f0f0f0;
-            transform: scale(1.05);
-        }
-
-        .refresh-btn:active {
-            transform: scale(0.95);
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5em;
-            }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .product-details {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
+        @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🍦 NRT Ice Cream 🍦</h1>
-            <p>Discover our delicious ice cream flavors</p>
-        </header>
-
-        <div id="products-container">
-            <div class="loading">
-                <div class="loading-spinner"></div>
-                Loading our delicious ice creams...
+<a class="skip" href="#main">Skip to content</a>
+<div class="announcement">NRT Ice Cream <span aria-hidden="true"> · </span> Narsaraopet</div>
+<header>
+    <div class="wrap header-inner">
+        <a class="brand" href="#home" aria-label="NRT Ice Cream home">
+            <svg viewBox="0 0 60 78" fill="none" aria-hidden="true"><path d="M17 43 30 72 43 43M20 50l17 11M25 43l15 10M40 49 24 61M34 43 20 53" stroke="currentColor" stroke-width="2"/><path d="M14 41c-8-4-6-14 1-16-3-9 6-18 15-15 9-3 18 6 15 15 8 3 9 13 1 16Z" fill="#efcec8" stroke="currentColor" stroke-width="2"/><path d="M20 20q3-5 8-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span><span class="brand-name">NRT</span><span class="brand-sub">Ice Cream</span></span>
+        </a>
+        <nav aria-label="Main navigation">
+            <a href="#home" data-route="home" aria-current="page">Home</a>
+            <a href="#menu" data-route="menu">Menu</a>
+            <a href="#order" data-route="order">Order Online <span id="cart-count" class="count" aria-label="0 items in your order">0</span></a>
+        </nav>
+    </div>
+</header>
+<main id="main" class="wrap" tabindex="-1">
+    <section id="home-page" aria-labelledby="home-title">
+        <div class="hero">
+            <div>
+                <p class="eyebrow">Your next little treat</p>
+                <h1 id="home-title" tabindex="-1">A little scoop.<br>A <em>happy</em> moment.</h1>
+                <p class="hero-copy">Find your favourite ice cream, explore the menu, and make a little room for something sweet.</p>
+                <div class="actions"><a class="button" href="#menu">Explore the menu <span aria-hidden="true">↗</span></a></div>
+            </div>
+            <div class="hero-art" role="img" aria-label="Illustration of three ice cream scoops in a waffle cone">
+                <span class="small-star" aria-hidden="true">✧</span>
+                <svg viewBox="0 0 320 360" aria-hidden="true">
+                    <defs><pattern id="waffle" width="25" height="25" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><rect width="25" height="25" fill="#dca76c"/><path d="M0 0h25v25" fill="none" stroke="#b47a46" stroke-width="2"/></pattern></defs>
+                    <path d="M97 195 161 337 225 195Z" fill="url(#waffle)" stroke="#b47a46" stroke-width="2"/>
+                    <path d="M91 183q-20-22-4-48 5-36 40-39 33-10 50 18 27 19 19 48 4 29-24 37-28 14-47 0-28 9-34-16" fill="#815746"/>
+                    <path d="M155 182q-14-22 2-44 6-33 37-31 34-3 47 26 22 19 10 45 3 23-23 27-17 9-34-2-27 7-39-21" fill="#edafae"/>
+                    <path d="M121 123q-18-20-3-44 1-34 30-39 30-15 50 12 27 7 24 33 15 29-15 43-22 12-39-1-28 14-47-4" fill="#fff1d2"/>
+                    <path d="M137 70q5-13 18-14M168 141q5-11 15-12M96 132q5-14 16-16" fill="none" stroke="#ffffff" opacity=".5" stroke-width="6" stroke-linecap="round"/>
+                    <g fill="#563928" opacity=".5"><circle cx="123" cy="149" r="3"/><circle cx="144" cy="173" r="3"/><circle cx="105" cy="165" r="2"/></g>
+                    <g fill="#b67076" opacity=".55"><circle cx="217" cy="148" r="3"/><circle cx="192" cy="173" r="2"/><circle cx="229" cy="177" r="2"/></g>
+                </svg>
+                <span class="art-label">Life is sweeter with a scoop.</span>
             </div>
         </div>
+        <div class="intro-strip"><p>A favourite flavour, or something new?</p><a class="text-link" href="#menu">Find your next scoop →</a></div>
+        <div class="home-note"><h2>Your favourites.<br>All in one place.</h2><p>Browse our menu and add your picks to a cart. Online checkout is coming soon; orders and payments are not being accepted on this website yet.</p></div>
+    </section>
 
-        <footer>
-            <p>Made with ❤️ for ice cream lovers</p>
-        </footer>
-    </div>
-
-    <script>
-        // Fetch and display products
-        async function loadProducts() {
-            try {
-                const response = await fetch('/api/products');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const products = await response.json();
-                displayProducts(products);
-            } catch (error) {
-                console.error('Error loading products:', error);
-                displayError(error.message);
-            }
-        }
-
-        function displayProducts(products) {
-            const container = document.getElementById('products-container');
-
-            if (products.length === 0) {
-                container.innerHTML = '<div class="error"><div class="error-icon">🤷</div><p>No products found</p></div>';
-                return;
-            }
-
-            const productsHTML = products.map(product => `
-                <div class="product-card">
-                    <div class="ice-cream-icon">
-                        ${product.available ? '🍦' : '❌'}
+    <section id="shop-page" aria-labelledby="shop-title" hidden>
+        <div class="page-top"><p class="eyebrow">NRT Ice Cream · Narsaraopet</p><h1 id="shop-title" tabindex="-1">Our menu</h1><p id="shop-subtitle">Find a flavour for your kind of day.</p></div>
+        <p id="order-notice" class="ordering-notice" hidden><strong>Online checkout is coming soon.</strong> You can build a cart here, but it will not be sent to the shop.</p>
+        <div id="shop-layout" class="shop-layout">
+            <div>
+                <div class="toolbar">
+                    <div class="filters">
+                        <label class="sr-only" for="search">Search the menu</label><input id="search" type="search" placeholder="Search your favourites…" maxlength="100">
+                        <label class="sr-only" for="availability">Availability</label><select id="availability"><option value="all">All flavours</option><option value="available">Available now</option></select>
                     </div>
-                    <div class="product-info">
-                        <div class="product-name">${escapeHtml(product.name)}</div>
-
-                        <div class="product-details">
-                            <div class="size-badge">📏 ${escapeHtml(product.size)}</div>
-                            <div class="price">$${product.price}</div>
-                        </div>
-
-                        <div class="availability">
-                            <span class="status-badge ${product.available ? 'available' : 'unavailable'}">
-                                <span class="status-dot"></span>
-                                ${product.available ? 'Available' : 'Out of Stock'}
-                            </span>
-                        </div>
-                    </div>
+                    <span id="result-count" class="result-count" role="status">Loading menu…</span>
+                    <button id="refresh-menu" class="refresh" type="button">Refresh menu</button>
                 </div>
-            `).join('');
+                <div id="product-grid" class="grid" aria-busy="true"><p class="status-box" role="status">Loading the menu…</p></div>
+                <p class="fine" style="margin-top:20px">Images are illustrations. All prices are in Indian rupees.</p>
+            </div>
+            <aside id="basket" class="basket" aria-labelledby="basket-title" hidden>
+                <div class="basket-title"><h2 id="basket-title">Your order</h2><span id="basket-count" class="fine">0 items</span></div>
+                <div id="cart-items"></div>
+                <div class="subtotal"><span>Item subtotal</span><strong id="subtotal">₹0.00</strong></div>
+                <p class="fine">Final charges will be shown when checkout becomes available.</p>
+                <button class="button checkout" type="button" disabled>Checkout coming soon</button>
+                <p class="fine">Your cart is saved on this device when browser storage is available. No order has been placed and no payment has been taken.</p>
+            </aside>
+        </div>
+    </section>
+</main>
+<footer><div class="wrap footer-inner"><div><p class="serif footer-title">NRT Ice Cream</p><p>Narsaraopet, Andhra Pradesh</p></div><p>Little moments. Sweeter days.</p><p>© <span id="year"></span> NRT Ice Cream</p></div></footer>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 
-            container.innerHTML = productsHTML;
+<script>
+    'use strict';
+    // Serve this file from Spring Boot's src/main/resources/static/index.html.
+    // The existing GET /api/products returns [{ id, name, size, price, available }].
+    // Checkout is intentionally unavailable until an order API is implemented.
+    const API_URL = '/api/products';
+    const CART_KEY = 'nrt-icecream-cart-v1';
+    const currency = new Intl.NumberFormat('en-IN', { style:'currency', currency:'INR' });
+    const state = { products:[], cart:[], loading:true, error:false, route:'home' };
+    const byId = id => document.getElementById(id);
+    const money = paise => currency.format(paise / 100);
+    const escapeHtml = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    let toastTimer;
+
+    function normaliseProducts(data) {
+        if (!Array.isArray(data)) throw new Error('Expected a product array');
+        const ids = new Set();
+        return data.map(raw => {
+            if (!raw || !Number.isSafeInteger(raw.id) || raw.id < 1 || ids.has(raw.id) ||
+                typeof raw.name !== 'string' || !raw.name.trim() || typeof raw.size !== 'string' ||
+                typeof raw.available !== 'boolean' || !['number','string'].includes(typeof raw.price) ||
+                String(raw.price).trim() === '' || !Number.isFinite(Number(raw.price)) || Number(raw.price) < 0.01) {
+                throw new Error('Invalid product data');
+            }
+            const paise = Math.round(Number(raw.price) * 100);
+            if (!Number.isSafeInteger(paise) || paise > 9999999999) throw new Error('Invalid price');
+            ids.add(raw.id);
+            return { id:raw.id, name:raw.name.trim(), size:raw.size.trim(), paise, available:raw.available };
+        });
+    }
+    function restoreCart() {
+        try {
+            const saved = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+            if (!Array.isArray(saved)) return;
+            const ids = new Set();
+            state.cart = saved.filter(row => {
+                if (!row || !Number.isSafeInteger(row.id) || row.id < 1 || ids.has(row.id) ||
+                    !Number.isInteger(row.qty) || row.qty < 1 || row.qty > 99) return false;
+                ids.add(row.id); return true;
+            }).map(row => ({id:row.id, qty:row.qty}));
+        } catch { state.cart = []; }
+    }
+    function saveCart() {
+        try { localStorage.setItem(CART_KEY, JSON.stringify(state.cart)); } catch { /* Cart still works in this tab. */ }
+    }
+    function toast(message) {
+        clearTimeout(toastTimer);
+        byId('toast').textContent = message;
+        byId('toast').hidden = false;
+        toastTimer = setTimeout(() => { byId('toast').hidden = true; }, 2800);
+    }
+    function illustration(product) {
+        let scoop = '#f5dfba', tile = '#f1e7d7';
+        const name = product.name.toLowerCase();
+        if (/choc|coffee|brownie/.test(name)) { scoop = '#90634e'; tile = '#ecdfd1'; }
+        else if (/mango|butterscotch/.test(name)) { scoop = '#e9b655'; tile = '#f4e5c7'; }
+        else if (/strawberry|rose/.test(name)) { scoop = '#e2a6ad'; tile = '#f2dfdf'; }
+        else if (/pista|mint/.test(name)) { scoop = '#a7bb8a'; tile = '#e7eadb'; }
+        return `<div class="product-art" style="--tile:${tile}" aria-hidden="true">
+        ${product.available ? '' : '<span class="stock-label">Sold out</span>'}
+        <svg viewBox="0 0 120 150" fill="none"><path d="M35 80 60 144 85 80Z" fill="#dfb482" stroke="#bb8d58" stroke-width="1.5"/><path d="m39 90 35 22M45 105l22 14M47 80l33 22M81 90l-35 22M75 105l-22 14M73 80l-33 22" stroke="#bd8d54" stroke-width="1.4"/><path d="M30 72q-10-14 1-26 0-19 18-23 15-13 30 3 18 2 19 20 11 14-1 27-4 13-21 11-13 7-24 0-20 5-22-12" fill="${scoop}"/><path d="M43 44q3-10 13-10" stroke="#fff" stroke-opacity=".45" stroke-width="5" stroke-linecap="round"/></svg></div>`;
+    }
+    function renderProducts() {
+        const grid = byId('product-grid');
+        grid.setAttribute('aria-busy', String(state.loading));
+        byId('refresh-menu').disabled = state.loading;
+        if (state.loading) {
+            grid.innerHTML = '<p class="status-box" role="status">Loading the menu…</p>';
+            byId('result-count').textContent = 'Loading menu…'; return;
         }
-
-        function displayError(errorMessage) {
-            const container = document.getElementById('products-container');
-            container.innerHTML = `
-                <div class="error">
-                    <div class="error-icon">😞</div>
-                    <p>Oops! Failed to load products</p>
-                    <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.8;">${escapeHtml(errorMessage)}</p>
-                    <button class="refresh-btn" onclick="loadProducts()">🔄 Try Again</button>
-                </div>
-            `;
+        if (state.error) {
+            grid.innerHTML = '<div class="status-box" role="status"><p>The menu is temporarily unavailable.</p><p>Please try again in a moment.</p><button class="button secondary" type="button" data-retry>Try again</button></div>';
+            byId('result-count').textContent = 'Menu unavailable'; return;
         }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        const query = byId('search').value.trim().toLowerCase();
+        const onlyAvailable = byId('availability').value === 'available';
+        const products = state.products.filter(p => (!onlyAvailable || p.available) && `${p.name} ${p.size}`.toLowerCase().includes(query));
+        byId('result-count').textContent = `${products.length} menu item${products.length === 1 ? '' : 's'}`;
+        if (!products.length) {
+            grid.innerHTML = `<p class="status-box" role="status">${state.products.length ? 'No flavours match your selection. Try another search or filter.' : 'Our menu is being prepared. Please check back soon.'}</p>`; return;
         }
-
-        // Load products when page loads
-        document.addEventListener('DOMContentLoaded', loadProducts);
-    </script>
+        grid.innerHTML = products.map(p => `<article class="product">${illustration(p)}<div class="product-body"><h2>${escapeHtml(p.name)}</h2><p class="product-size">${escapeHtml(p.size)}</p><div class="product-bottom"><span class="price">${money(p.paise)}</span><button class="add-button" type="button" data-add="${p.id}" aria-label="Add ${escapeHtml(p.name)} ${escapeHtml(p.size)} to your order" ${p.available ? '' : 'disabled'}>${p.available ? 'Add to order +' : 'Sold out'}</button></div></div></article>`).join('');
+    }
+    function cartLines() {
+        return state.cart.map(row => ({ ...row, product:state.products.find(p => p.id === row.id) }))
+            .filter(row => row.product && row.product.available);
+    }
+    function renderCart() {
+        const lines = state.loading || state.error ? [] : cartLines();
+        const count = lines.reduce((sum, row) => sum + row.qty, 0);
+        const total = lines.reduce((sum, row) => sum + row.qty * row.product.paise, 0);
+        byId('cart-count').textContent = count;
+        byId('cart-count').setAttribute('aria-label', `${count} items in your order`);
+        byId('basket-count').textContent = `${count} item${count === 1 ? '' : 's'}`;
+        byId('subtotal').textContent = state.loading || state.error ? '—' : money(total);
+        if (state.loading || state.error) {
+            byId('cart-items').innerHTML = `<p class="basket-empty">${state.loading ? 'Checking current prices and availability…' : 'Your saved cart will appear when the menu is available.'}</p>`; return;
+        }
+        if (!lines.length) {
+            byId('cart-items').innerHTML = '<p class="basket-empty">Your next treat starts here.<br>Add a flavour from the menu.</p>'; return;
+        }
+        byId('cart-items').innerHTML = lines.map(({id,qty,product:p}) => `<div class="cart-row"><div class="cart-item-top"><div><p class="cart-name">${escapeHtml(p.name)}</p><p class="cart-size">${escapeHtml(p.size)} · ${money(p.paise)} each</p></div><strong>${money(p.paise * qty)}</strong></div><div class="cart-item-bottom"><div class="stepper"><button type="button" data-decrease="${id}" aria-label="Decrease ${escapeHtml(p.name)} quantity">−</button><output aria-label="Quantity">${qty}</output><button type="button" data-increase="${id}" aria-label="Increase ${escapeHtml(p.name)} quantity" ${qty >= 99 ? 'disabled' : ''}>+</button></div><button class="remove" type="button" data-remove="${id}" aria-label="Remove ${escapeHtml(p.name)}">Remove</button></div></div>`).join('');
+    }
+    function changeCart(id, action) {
+        const product = state.products.find(p => p.id === id);
+        if (state.loading || state.error || !product || !product.available) return;
+        const row = state.cart.find(r => r.id === id);
+        if (action === 'remove') state.cart = state.cart.filter(r => r.id !== id);
+        else if (action === 'decrease' && row) {
+            row.qty -= 1;
+            state.cart = state.cart.filter(r => r.qty > 0);
+        } else if (action === 'add' || action === 'increase') {
+            if (row && row.qty >= 99) { toast('Maximum 99 of each item.'); return; }
+            if (row) row.qty += 1; else state.cart.push({ id, qty:1 });
+        }
+        saveCart(); renderCart();
+        if (action === 'add') toast(`${product.name} added to your cart.`);
+        else toast('Cart updated.');
+    }
+    async function loadProducts() {
+        if (loadProducts.pending) return;
+        loadProducts.pending = true;
+        state.loading = true; state.error = false;
+        renderProducts(); renderCart();
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000);
+        try {
+            const response = await fetch(API_URL, { headers:{Accept:'application/json'}, cache:'no-store', signal:controller.signal });
+            if (!response.ok) throw new Error('Menu request failed');
+            state.products = normaliseProducts(await response.json());
+            const before = state.cart.length;
+            state.cart = state.cart.filter(row => state.products.some(p => p.id === row.id && p.available));
+            if (before !== state.cart.length) toast('An unavailable item was removed from your cart.');
+            saveCart();
+        } catch (error) {
+            state.error = true;
+            console.warn('NRT menu could not be loaded. Serve this page from Spring Boot and check GET /api/products.', error);
+        } finally {
+            clearTimeout(timeout); state.loading = false; loadProducts.pending = false;
+            renderProducts(); renderCart();
+        }
+    }
+    function showRoute(focusHeading = false) {
+        const hash = location.hash.slice(1);
+        if (hash === 'main') return;
+        state.route = ['home','menu','order'].includes(hash) ? hash : 'home';
+        const home = state.route === 'home', order = state.route === 'order';
+        byId('home-page').hidden = !home;
+        byId('shop-page').hidden = home;
+        byId('basket').hidden = !order;
+        byId('order-notice').hidden = !order;
+        byId('order-notice').innerHTML = '<strong>Online checkout is coming soon.</strong> You can build a cart here, but it will not be sent to the shop.';
+        byId('shop-layout').classList.toggle('with-cart', order);
+        byId('shop-title').textContent = order ? 'Make it your kind of sweet.' : 'Our menu';
+        byId('shop-subtitle').textContent = order ? 'Choose your favourites and build your cart.' : 'Find a flavour for your kind of day.';
+        document.title = `${order ? 'Order Online' : home ? 'Home' : 'Menu'} · NRT Ice Cream`;
+        document.querySelectorAll('[data-route]').forEach(link => {
+            if (link.dataset.route === state.route) link.setAttribute('aria-current','page');
+            else link.removeAttribute('aria-current');
+        });
+        if (focusHeading) { byId(home ? 'home-title' : 'shop-title').focus({preventScroll:true}); window.scrollTo({top:0}); }
+    }
+    byId('search').addEventListener('input', renderProducts);
+    byId('availability').addEventListener('change', renderProducts);
+    byId('refresh-menu').addEventListener('click', loadProducts);
+    byId('product-grid').addEventListener('click', event => {
+        const button = event.target.closest('button');
+        if (!button || button.disabled) return;
+        if (button.hasAttribute('data-retry')) loadProducts();
+        if (button.hasAttribute('data-add')) changeCart(Number(button.dataset.add), 'add');
+    });
+    byId('cart-items').addEventListener('click', event => {
+        const button = event.target.closest('button');
+        if (!button || button.disabled) return;
+        for (const action of ['increase','decrease','remove']) {
+            if (button.dataset[action]) { changeCart(Number(button.dataset[action]), action); break; }
+        }
+    });
+    window.addEventListener('hashchange', () => showRoute(true));
+    byId('year').textContent = new Date().getFullYear();
+    restoreCart(); showRoute(); loadProducts();
+</script>
 </body>
 </html>
-
